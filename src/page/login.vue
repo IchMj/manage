@@ -3,7 +3,7 @@
 	  	<transition name="form-fade" mode="in-out">
 	  		<section class="form_contianer" v-show="showLogin">
 		  		<div class="manage_tip">
-		  			<p>elm后台管理系统</p>
+		  			<p>运维后台系统</p>
 		  		</div>
 		    	<el-form :model="loginForm" :rules="rules" ref="loginForm">
 					<el-form-item prop="username">
@@ -16,9 +16,6 @@
 				    	<el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登录</el-button>
 				  	</el-form-item>
 				</el-form>
-				<p class="tip">温馨提示：</p>
-				<p class="tip">未登录过的新用户，自动注册</p>
-				<p class="tip">注册过的用户可凭账号密码登录</p>
 	  		</section>
 	  	</transition>
   	</div>
@@ -60,12 +57,13 @@
 			async submitForm(formName) {
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						const res = await login({user_name: this.loginForm.username, password: this.loginForm.password})
+						const res = await login({username: this.loginForm.username, password: this.loginForm.password})
 						if (res.status == 1) {
 							this.$message({
 		                        type: 'success',
 		                        message: '登录成功'
 		                    });
+                            localStorage.setItem('token', res.token);
 							this.$router.push('manage')
 						}else{
 							this.$message({

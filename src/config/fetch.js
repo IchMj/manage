@@ -17,12 +17,14 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 	}
 
 	if (window.fetch && method == 'fetch') {
+        const token = localStorage.getItem('token');
 		let requestConfig = {
 			credentials: 'include',
 			method: type,
 			headers: {
 				'Accept': 'application/json',
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+                'Authorization': `${token}`
 			},
 			mode: "cors",
 			cache: "force-cache"
@@ -33,7 +35,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
 				value: JSON.stringify(data)
 			})
 		}
-		
+
 		try {
 			const response = await fetch(url, requestConfig);
 			const responseJson = await response.json();

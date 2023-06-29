@@ -19,6 +19,7 @@
 	import {signout} from '@/api/getData'
 	import {baseImgPath} from '@/config/env'
 	import {mapActions, mapState} from 'vuex'
+    import {log} from "nightwatch/lib/util/logger";
 
     export default {
     	data(){
@@ -46,12 +47,17 @@
 	                        type: 'success',
 	                        message: '退出成功'
 	                    });
+                        console.log(1)
+                        localStorage.removeItem('token');
 	                    this.$router.push('/');
 					}else{
 						this.$message({
 	                        type: 'error',
-	                        message: res.message
+	                        message: "登录过期，请重新登录"
 	                    });
+                        localStorage.removeItem('token');
+                        this.$router.push('/');
+
 					}
 				}
 			},
